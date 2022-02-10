@@ -5,15 +5,6 @@ Config.MinimumMethJobPolice = 0
 Config.Cooldown = 360
 Config.RunCost = 1500
 
-Config.Payout = math.random(150000, 220000) -- How much you get paid when RN Jesus doesnt give you oxy, divided by 2 for when it does.
-Config.Item = "puremeth" -- The item you receive from the oxy run. Should be oxy right??
-Config.MethChance = 350 -- Percentage chance to get meth
-Config.MethAmount = math.random(20, 30) -- Amount of meth you recieve
-
-Config.SpecialRewardChance = 300 -- Percentage of getting rare item on oxy run. Multiplied by 100. 0.1% = 1, 1% = 10, 20% = 200, 50% = 500, etc. Default 0.1%.
-Config.SpecialItem = "usb_green" -- Put a rare item here which will have 0.1% chance of being given on the run.
-
-
 Config['methguards'] = {
     ['npcguards'] = {
         { coords = vector3(3820.32, 4458.0, 3.57), heading = 230.37, model = 'g_m_y_lost_01'},
