@@ -48,7 +48,7 @@ CreateThread(function()
             },
             { 
                 type = "client",
-                event = "ps-methrun:client:items",
+                event = "ps-methrun:client:reward",
                 icon = "fas fa-circle",
                 label = "Check Product",
                 item = 'meth_cured',
@@ -251,6 +251,40 @@ AddEventHandler('ps-methrun:client:items', function()
     end, "casekey")
 end)
 
-
+RegisterNetEvent("ps-methrun:client:reward")
+AddEventHandler('ps-methrun:client:reward', function()
+    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+        if result then
+            TriggerEvent('animations:client:EmoteCommandStart', {"suitcase2"})
+            QBCore.Functions.Progressbar("product_check", "Checking Quality", 7000, false, true, {
+                disableMovement = true,
+                disableCarMovement = true,
+                disableMouse = false,
+                disableCombat = true,
+            }, {
+            }, {}, {}, function() -- Done
+                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                ClearPedTasks(PlayerPedId())
+                TriggerServerEvent('QBCore:Server:RemoveItem', "meth_cured", 1)
+                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "remove")
+                local MethChance = math.random(1,1000)
+                if MethChance <= Config.MethChance then
+                    TriggerServerEvent("ps-methrun:server:givemeth")
+                elseif MethChance <= Config.SpecialRewardChance then
+                    TriggerServerEvent("ps-meth:server:giveitemreward")
+                else
+                    TriggerServerEvent("ps-methrun:server:givemoney")
+                end
+                
+                QBCore.Functions.Notify("You got paid", "success")
+            end, function()
+                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                QBCore.Functions.Notify("Cancelled..", "error")
+            end)
+        else
+            QBCore.Functions.Notify("You cannot do this..", "error")
+        end
+    end, "meth_cured")
+end)
 
 
