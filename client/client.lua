@@ -27,13 +27,14 @@ function MethPed()
   while not HasModelLoaded(GetHashKey('g_m_m_mexboss_01')) do
   Wait(1)
   end
-  methboss = CreatePed(2, GetHashKey('g_m_m_mexboss_01'), 481.18, -591.21, 24.75, 299.77, false, false) -- change here the cords for the ped 
+  methboss = CreatePed(2, GetHashKey('g_m_m_mexboss_01'), 481.18, -591.21, 23.75, 299.77, false, false) -- change here the cords for the ped 
   SetPedFleeAttributes(methboss, 0, 0)
   SetPedDiesWhenInjured(methboss, false)
   TaskStartScenarioInPlace(methboss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
   SetPedKeepTask(methboss, true)
   SetBlockingOfNonTemporaryEvents(methboss, true)
   SetEntityInvincible(methboss, true)
+  FreezeEntityPosition(methboss, true)
 end
 
 --- Target Stuff
