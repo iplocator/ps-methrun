@@ -1,4 +1,4 @@
-# ps-methrun (WIP)
+# ps-methrun
 # Dependencies
 https://github.com/NathanERP/memorygame_2
 
