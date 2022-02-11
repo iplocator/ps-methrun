@@ -217,33 +217,39 @@ RegisterNetEvent("ps-methrun:client:items")
 AddEventHandler('ps-methrun:client:items', function()
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
         if result then
-            TriggerEvent('animations:client:EmoteCommandStart', {"type3"})
-            QBCore.Functions.Progressbar("grab_case", "Unlocking case..", 7000, false, true, {
-                disableMovement = true,
-                disableCarMovement = true,
-                disableMouse = false,
-                disableCombat = true,
-            }, {
-            }, {}, {}, function() -- Done
-                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                RemoveBlip(case)
-                TriggerEvent("qb-dispatch:methjob")
-                TriggerServerEvent('QBCore:Server:AddItem', "securitycase", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "add")
-                TriggerServerEvent('QBCore:Server:RemoveItem', "casekey", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["casekey"], "remove")
+            TriggerEvent("qb-dispatch:methjob")
+            exports["memorygame_2"]:thermiteminigame(8, 3, 2, 20,
+            function() -- Success
+                TriggerEvent('animations:client:EmoteCommandStart', {"type3"})
+                QBCore.Functions.Progressbar("grab_case", "Unlocking case..", 10000, false, true, {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                }, {
+                }, {}, {}, function() -- Done
+                    TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                    RemoveBlip(case)
+                    TriggerServerEvent('QBCore:Server:AddItem', "securitycase", 1)
+                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "add")
+                    TriggerServerEvent('QBCore:Server:RemoveItem', "casekey", 1)
+                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["casekey"], "remove")
 
-                local playerPedPos = GetEntityCoords(PlayerPedId(), true)
-                local case = GetClosestObjectOfType(playerPedPos, 10.0, GetHashKey("prop_security_case_01"), false, false, false)
-                if (IsPedActiveInScenario(PlayerPedId()) == false) then
-                SetEntityAsMissionEntity(case, 1, 1)
-                DeleteEntity(case)
-                QBCore.Functions.Notify("You removed the the first layer of security on the case", "success")
-                Itemtimemsg()
+                    local playerPedPos = GetEntityCoords(PlayerPedId(), true)
+                    local case = GetClosestObjectOfType(playerPedPos, 10.0, GetHashKey("prop_security_case_01"), false, false, false)
+                    if (IsPedActiveInScenario(PlayerPedId()) == false) then
+                    SetEntityAsMissionEntity(case, 1, 1)
+                    DeleteEntity(case)
+                    QBCore.Functions.Notify("You removed the the first layer of security on the case", "success")
+                    Itemtimemsg()
                 end
-            end, function()
-                TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                QBCore.Functions.Notify("Cancelled..", "error")
+                end, function()
+                    TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+                    QBCore.Functions.Notify("Cancelled..", "error")
+                end)
+            end,
+            function() -- Fail thermite game
+                QBCore.Functions.Notify("You failed!")
             end)
         else
             QBCore.Functions.Notify("You cannot do this..", "error")
