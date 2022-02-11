@@ -135,7 +135,7 @@ local DrawCoord = 1
 if DrawCoord == 1 then
 VehicleCoords = Carspawn
 end
-RequestModel(`slamvan2'`)
+RequestModel(`slamvan2`)
 while not HasModelLoaded(`slamvan2`) do
 Citizen.Wait(0)
 end
