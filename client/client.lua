@@ -23,11 +23,11 @@ Citizen.CreateThread(function()
 end)
 
 function MethPed()
-  RequestModel(GetHashKey('g_m_m_mexboss_01'))
-  while not HasModelLoaded(GetHashKey('g_m_m_mexboss_01')) do
+  RequestModel(`g_m_m_mexboss_01`)
+  while not HasModelLoaded(`g_m_m_mexboss_01`) do
   Wait(1)
   end
-  methboss = CreatePed(2, GetHashKey('g_m_m_mexboss_01'), 481.18, -591.21, 23.75, 299.77, false, false) -- change here the cords for the ped 
+  methboss = CreatePed(2, `g_m_m_mexboss_01`, 481.18, -591.21, 23.75, 299.77, false, false) -- change here the cords for the ped 
   SetPedFleeAttributes(methboss, 0, 0)
   SetPedDiesWhenInjured(methboss, false)
   TaskStartScenarioInPlace(methboss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
@@ -135,20 +135,20 @@ local DrawCoord = 1
 if DrawCoord == 1 then
 VehicleCoords = Carspawn
 end
-RequestModel(GetHashKey('slamvan2'))
-while not HasModelLoaded(GetHashKey('slamvan2')) do
+RequestModel(`slamvan2'`)
+while not HasModelLoaded(`slamvan2`) do
 Citizen.Wait(0)
 end
 SetNewWaypoint(VehicleCoords.x, VehicleCoords.y)
 ClearAreaOfVehicles(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 15.0, false, false, false, false, false)
-transport = CreateVehicle(GetHashKey('slamvan2'), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true, true)
+transport = CreateVehicle(`slamvan2`, VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true, true)
 --
 SpawnGuards()
 spawncase()
 end)
 
 function spawncase()
-    local case = CreateObject(GetHashKey("prop_security_case_01"), 3828.87, 4471.85, 3.0, true,  true, true)
+    local case = CreateObject(`prop_security_case_01`, 3828.87, 4471.85, 3.0, true,  true, true)
     CreateObject(case)
     SetEntityHeading(case, 176.02)
     FreezeEntityPosition(case, true)
@@ -181,7 +181,7 @@ end
 function SpawnGuards()
     local ped = PlayerPedId()
 
-    SetPedRelationshipGroupHash(ped, GetHashKey('PLAYER'))
+    SetPedRelationshipGroupHash(ped, `PLAYER`)
     AddRelationshipGroup('npcguards')
 
     for k, v in pairs(Config['methguards']['npcguards']) do
@@ -195,22 +195,22 @@ function SpawnGuards()
         SetPedRandomProps(methguards['npcguards'][k])
         SetEntityAsMissionEntity(methguards['npcguards'][k])
         SetEntityVisible(methguards['npcguards'][k], true)
-        SetPedRelationshipGroupHash(methguards['npcguards'][k], GetHashKey("npcguards"))
+        SetPedRelationshipGroupHash(methguards['npcguards'][k], `npcguards`)
         SetPedAccuracy(methguards['npcguards'][k], 75)
         SetPedArmour(methguards['npcguards'][k], 100)
         SetPedCanSwitchWeapon(methguards['npcguards'][k], true)
         SetPedDropsWeaponsWhenDead(methguards['npcguards'][k], false)
         SetPedFleeAttributes(methguards['npcguards'][k], 0, false)
-        GiveWeaponToPed(methguards['npcguards'][k], GetHashKey('WEAPON_PISTOL'), 255, false, false)
+        GiveWeaponToPed(methguards['npcguards'][k], `WEAPON_PISTOL`, 255, false, false)
         local random = math.random(1, 2)
         if random == 2 then
             TaskGuardCurrentPosition(methguards['npcguards'][k], 10.0, 10.0, 1)
         end
     end
 
-    SetRelationshipBetweenGroups(0, GetHashKey("npcguards"), GetHashKey("npcguards"))
-    SetRelationshipBetweenGroups(5, GetHashKey("npcguards"), GetHashKey("PLAYER"))
-    SetRelationshipBetweenGroups(5, GetHashKey("PLAYER"), GetHashKey("npcguards"))
+    SetRelationshipBetweenGroups(0, `npcguards`, `npcguards`)
+    SetRelationshipBetweenGroups(5, `npcguards`, `PLAYER`)
+    SetRelationshipBetweenGroups(5, `PLAYER`, `npcguards`)
 end
 
 RegisterNetEvent("ps-methrun:client:items")
@@ -236,7 +236,7 @@ AddEventHandler('ps-methrun:client:items', function()
                     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["casekey"], "remove")
 
                     local playerPedPos = GetEntityCoords(PlayerPedId(), true)
-                    local case = GetClosestObjectOfType(playerPedPos, 10.0, GetHashKey("prop_security_case_01"), false, false, false)
+                    local case = GetClosestObjectOfType(playerPedPos, 10.0, `prop_security_case_01`, false, false, false)
                     if (IsPedActiveInScenario(PlayerPedId()) == false) then
                     SetEntityAsMissionEntity(case, 1, 1)
                     DeleteEntity(case)
