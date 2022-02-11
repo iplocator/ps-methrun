@@ -1,4 +1,7 @@
 # ps-methrun (WIP)
+# Dependencies
+https://github.com/NathanERP/memorygame_2
+https://github.com/BerkieBb/qb-target
 
 
     --Items to add to qb-core>shared>items.lua
