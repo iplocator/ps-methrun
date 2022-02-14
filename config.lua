@@ -2,8 +2,8 @@ Config = {}
 
 
 Config.MinimumMethJobPolice = 0
-Config.Cooldown = 360
-Config.RunCost = 1500
+Config.Cooldown = 360 --- Cooldown until next allowed meth run
+Config.RunCost = 1500 --- Self explanatory 
 
 Config.Payout = math.random(150000, 220000) -- How much you get paid
 Config.Item = "puremeth" -- The item you receive from the job
@@ -13,6 +13,9 @@ Config.MethAmount = math.random(20, 30) -- Amount of meth you recieve
 Config.SpecialRewardChance = 300 -- Percentage of getting rare item on job. Multiplied by 100. 0.1% = 1, 1% = 10, 20% = 200, 50% = 500, etc. Default 0.1%.
 Config.SpecialItem = "usb_green" -- Put a rare item here which will have 0.1% chance of being given on the run.
 
+Config.BossLocation = vector3(481.18, -591.21, 23.75)
+Config.Itemtime = 300 * 1000 -- 5 minutes (time for the case to open after you collect it)
+Config.Carspawn = vector3(3814.76, 4461.75, 3.6) -- Spawn location for vehicle (it serves not purpose just there...)
 
 Config['methguards'] = {
     ['npcguards'] = {

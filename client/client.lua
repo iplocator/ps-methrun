@@ -1,10 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject() 
 
-local Itemtime = 300 * 1000 -- 5 minutes
-local Carspawn = vector3(3814.76, 4461.75, 3.6)
 local VehicleCoords = nil
 local CurrentCops = 0
-
 
 CreateThread(function()
     Wait(1000)
@@ -82,19 +79,25 @@ function RunStart()
 	Citizen.Wait(3000)
 end
 
+RegisterCommand('bliptest',function ()
+    Itemtimemsg()
+end)
+
 function Itemtimemsg()
     Citizen.Wait(2000)
+
 	TriggerServerEvent('qb-phone:server:sendNewMail', {
 	sender = "Unknown",
 	subject = "Goods Collection",
 	message = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
 	})
-    Citizen.Wait(Itemtime)
+    Citizen.Wait(Config.Itemtime)
     TriggerServerEvent('QBCore:Server:RemoveItem', "securitycase", 1)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "remove")
     TriggerServerEvent('QBCore:Server:AddItem', "meth_cured", 20)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "add")
     QBCore.Functions.Notify("Security case has been unlocked.", "success")
+
 end
 ---
 RegisterNetEvent('ps-methrun:client:start', function ()
@@ -133,7 +136,7 @@ AddEventHandler('ps-methrun:server:runactivate', function()
 RunStart()
 local DrawCoord = 1
 if DrawCoord == 1 then
-VehicleCoords = Carspawn
+VehicleCoords = Config.Carspawn
 end
 RequestModel(`slamvan2`)
 while not HasModelLoaded(`slamvan2`) do
@@ -272,7 +275,7 @@ AddEventHandler('ps-methrun:client:reward', function()
             }, {}, {}, function() -- Done
                 TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                 ClearPedTasks(PlayerPedId())
-                TriggerServerEvent('QBCore:Server:RemoveItem', "meth_cured", 1)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "meth_cured", 20)
                 TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "remove")
                 local MethChance = math.random(1,1000)
                 if MethChance <= Config.MethChance then
@@ -282,7 +285,7 @@ AddEventHandler('ps-methrun:client:reward', function()
                 else
                     TriggerServerEvent("ps-methrun:server:givemoney")
                 end
-                
+
                 QBCore.Functions.Notify("You got paid", "success")
             end, function()
                 TriggerEvent('animations:client:EmoteCommandStart', {"c"})
