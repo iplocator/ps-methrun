@@ -90,7 +90,7 @@ function Itemtimemsg()
 	message = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
 	})
     Citizen.Wait(Itemtime)
-    TriggerServerEvent('QBCore:Server:RemoveItem', "securitycase", 5)
+    TriggerServerEvent('QBCore:Server:RemoveItem', "securitycase", 1)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "remove")
     TriggerServerEvent('QBCore:Server:AddItem', "meth_cured", 20)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "add")
