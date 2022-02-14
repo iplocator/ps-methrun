@@ -87,7 +87,7 @@ function Itemtimemsg()
 	TriggerServerEvent('qb-phone:server:sendNewMail', {
 	sender = "Unknown",
 	subject = "Goods Collection",
-	message = "Looks like you got the goods, the case should unlock automatically 5 minutes you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
+	message = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
 	})
     Citizen.Wait(Itemtime)
     TriggerServerEvent('QBCore:Server:RemoveItem', "securitycase", 5)
