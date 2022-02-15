@@ -75,23 +75,6 @@ function RunStart()
 	Citizen.Wait(3000)
 end
 
-
-
-RegisterCommand('bliptest',function (Itemtimemsg)
-    Citizen.Wait(2000)
-
-	TriggerServerEvent('qb-phone:server:sendNewMail', {
-	sender = "Unknown",
-	subject = "Goods Collection",
-	message = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
-	})
-    Citizen.Wait(Config.Itemtime)
-    TriggerServerEvent('QBCore:Server:RemoveItem', "securitycase", 1)
-    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "remove")
-    TriggerServerEvent('QBCore:Server:AddItem', "meth_cured", 20)
-    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "add")
-    QBCore.Functions.Notify("Security case has been unlocked.", "success")
-end)
 ---
 RegisterNetEvent('ps-methrun:client:start', function ()
     if CurrentCops >= Config.MinimumMethJobPolice then
