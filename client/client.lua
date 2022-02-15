@@ -75,9 +75,7 @@ function RunStart()
 	Citizen.Wait(3000)
 end
 
-
-
-RegisterCommand('bliptest',function (Itemtimemsg)
+function Itemtimemsg()
     Citizen.Wait(2000)
 
 	TriggerServerEvent('qb-phone:server:sendNewMail', {
@@ -91,7 +89,7 @@ RegisterCommand('bliptest',function (Itemtimemsg)
     TriggerServerEvent('QBCore:Server:AddItem', "meth_cured", 20)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "add")
     QBCore.Functions.Notify("Security case has been unlocked.", "success")
-end)
+end
 ---
 RegisterNetEvent('ps-methrun:client:start', function ()
     if CurrentCops >= Config.MinimumMethJobPolice then
@@ -127,17 +125,18 @@ end)
 RegisterNetEvent('ps-methrun:server:runactivate', function()
 RunStart()
 local DrawCoord = 1
-if DrawCoord == 1 then
-VehicleCoords = Config.Carspawn
+    if DrawCoord == 1 then
+    VehicleCoords = Config.Carspawn
 end
+
 RequestModel(`slamvan2`)
-while not HasModelLoaded(`slamvan2`) do
+    while not HasModelLoaded(`slamvan2`) do
 Citizen.Wait(0)
 end
+
 SetNewWaypoint(VehicleCoords.x, VehicleCoords.y)
 ClearAreaOfVehicles(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 15.0, false, false, false, false, false)
 transport = CreateVehicle(`slamvan2`, VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true, true)
---
 SpawnGuards()
 spawncase()
 end)
