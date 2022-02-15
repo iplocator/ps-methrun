@@ -3,11 +3,16 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local VehicleCoords = nil
 local CurrentCops = 0
 
-CreateThread(function()
-    Wait(1000)
-    if QBCore.Functions.GetPlayerData().job ~= nil and next(QBCore.Functions.GetPlayerData().job) then
-        PlayerJob = QBCore.Functions.GetPlayerData().job
-    end
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
+AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    QBCore.Functions.GetPlayerData(function(PlayerData)
+        PlayerJob = PlayerData.job
+    end)
+end)
+
+RegisterNetEvent('QBCore:Client:OnJobUpdate')
+AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
+    PlayerJob = JobInfo
 end)
 
 RegisterNetEvent('police:SetCopCount', function(amount)
@@ -15,7 +20,7 @@ RegisterNetEvent('police:SetCopCount', function(amount)
 end)
 
 
-CreateThread(function(MethPed)
+CreateThread(function()
   RequestModel(`g_m_m_mexboss_01`)
     while not HasModelLoaded(`g_m_m_mexboss_01`) do
     Wait(1)
@@ -84,10 +89,7 @@ function Itemtimemsg()
 	message = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
 	})
     Citizen.Wait(Config.Itemtime)
-    TriggerServerEvent('QBCore:Server:RemoveItem', "securitycase", 1)
-    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "remove")
-    TriggerServerEvent('QBCore:Server:AddItem', "meth_cured", 20)
-    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "add")
+    TriggerServerEvent('ps-methrun:server:givecaseitems')
     QBCore.Functions.Notify("Security case has been unlocked.", "success")
 end
 ---
@@ -104,8 +106,6 @@ RegisterNetEvent('ps-methrun:client:start', function ()
                 }, {
                 }, {}, {}, function() -- Done
                     TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                    TriggerServerEvent('QBCore:Server:AddItem', "casekey", 1)
-                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["casekey"], "add")
                     TriggerServerEvent('ps-methrun:server:startr')
                     TriggerServerEvent('ps-methrun:server:coolout')
 
@@ -223,10 +223,7 @@ RegisterNetEvent('ps-methrun:client:items', function()
                 }, {}, {}, function() -- Done
                     TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                     RemoveBlip(case)
-                    TriggerServerEvent('QBCore:Server:AddItem', "securitycase", 1)
-                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["securitycase"], "add")
-                    TriggerServerEvent('QBCore:Server:RemoveItem', "casekey", 1)
-                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["casekey"], "remove")
+                    TriggerServerEvent('ps-methrun:server:unlock')
 
                     local playerPedPos = GetEntityCoords(PlayerPedId(), true)
                     local case = GetClosestObjectOfType(playerPedPos, 10.0, `prop_security_case_01`, false, false, false)
@@ -264,16 +261,7 @@ RegisterNetEvent('ps-methrun:client:reward', function()
             }, {}, {}, function() -- Done
                 TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                 ClearPedTasks(PlayerPedId())
-                TriggerServerEvent('QBCore:Server:RemoveItem', "meth_cured", 20)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "remove")
-                local MethChance = math.random(1,1000)
-                if MethChance <= Config.MethChance then
-                    TriggerServerEvent("ps-methrun:server:givemeth")
-                elseif MethChance <= Config.SpecialRewardChance then
-                    TriggerServerEvent("ps-meth:server:giveitemreward")
-                else
-                    TriggerServerEvent("ps-methrun:server:givemoney")
-                end
+                TriggerServerEvent('ps-methrun:server:rewardpayout')
 
                 QBCore.Functions.Notify("You got paid", "success")
             end, function()
@@ -283,7 +271,12 @@ RegisterNetEvent('ps-methrun:client:reward', function()
         else
             QBCore.Functions.Notify("You cannot do this..", "error")
         end
-    end, "meth_cured")
+    end, "meth_cured",20)
 end)
 
 
+RegisterCommand('teste', function()
+
+TriggerEvent('ps-methrun:client:reward')
+
+end)

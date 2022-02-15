@@ -7,6 +7,8 @@ RegisterServerEvent('ps-methrun:server:startr', function()
 
 	if player.PlayerData.money['cash'] >= Config.RunCost then
 		player.Functions.RemoveMoney('cash', Config.RunCost)
+        Player.Functions.AddItem("casekey", 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["casekey"], "add")
 		TriggerClientEvent("ps-methrun:server:runactivate", source)
 	else
 		TriggerClientEvent('QBCore:Notify', source, 'You Dont Have Enough Money', 'error')
@@ -34,20 +36,42 @@ QBCore.Functions.CreateCallback("ps-methrun:server:coolc",function(source, cb)
     end
 end)
 
-RegisterServerEvent('ps-meth:server:giveitemreward', function()
-	local player = QBCore.Functions.GetPlayer(source)
-	player.PlayerData.AddItem(Config.SpecialItem, 1)
-	TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.SpecialItem], "add")
+RegisterServerEvent('ps-methrun:server:unlock', function ()
+    local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+
+	Player.Functions.AddItem("securitycase", 1)
+    Player.Functions.RemoveItem("casekey", 1)
+	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["securitycase"], "add")
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["casekey"], "remove")
 end)
 
-RegisterServerEvent('ps-methrun:server:givemeth', function()
-	local player = QBCore.Functions.GetPlayer(source)
-	player.Functions.AddMoney('cash', Config.Payout)
-	player.Functions.AddItem(Config.Item, Config.MethAmount)
-	TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.Item], "add")
+RegisterServerEvent('ps-methrun:server:rewardpayout', function ()
+    local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+
+    Player.Functions.RemoveItem("meth_cured", 20)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["meth_cured"], "remove")
+
+    Player.Functions.AddMoney('cash', Config.Payout)
+
+    if chance >= 85 then
+        Player.Functions.AddItem(Config.Item, Config.MethAmount)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Item], "add")
+    end
+
+    if chance >= 95 then
+        Player.Functions.AddItem(Config.SpecialItem, 1)
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.SpecialItem], "add")
+    end
 end)
 
-RegisterServerEvent('ps-methrun:server:givemoney', function()
-	local player = QBCore.Functions.GetPlayer(source)
-	player.Functions.AddMoney('cash', Config.Payout)
+RegisterServerEvent('ps-methrun:server:givecaseitems', function ()
+    local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+
+	Player.Functions.AddItem("meth_cured", 20)
+    Player.Functions.RemoveItem("securitycase", 1)
+	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["meth_cured"], "add")
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["securitycase"], "remove")
 end)
