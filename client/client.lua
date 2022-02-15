@@ -15,7 +15,7 @@ RegisterNetEvent('police:SetCopCount', function(amount)
 end)
 
 
-Citizen.CreateThread(function(MethPed)
+CreateThread(function(MethPed)
   RequestModel(`g_m_m_mexboss_01`)
     while not HasModelLoaded(`g_m_m_mexboss_01`) do
     Wait(1)
