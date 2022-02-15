@@ -79,7 +79,7 @@ function Itemtimemsg()
     Citizen.Wait(2000)
 
 	TriggerServerEvent('qb-phone:server:sendNewMail', {
-	sender = "Test",
+	sender = "Unknown",
 	subject = "Goods Collection",
 	message = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
 	})
