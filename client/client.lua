@@ -15,24 +15,20 @@ RegisterNetEvent('police:SetCopCount', function(amount)
 end)
 
 
-Citizen.CreateThread(function()
-	MethPed()
-end)
-
-function MethPed()
+Citizen.CreateThread(function(MethPed)
   RequestModel(`g_m_m_mexboss_01`)
-  while not HasModelLoaded(`g_m_m_mexboss_01`) do
-  Wait(1)
+    while not HasModelLoaded(`g_m_m_mexboss_01`) do
+    Wait(1)
   end
-  methboss = CreatePed(2, `g_m_m_mexboss_01`, 481.18, -591.21, 23.75, 299.77, false, false) -- change here the cords for the ped 
-  SetPedFleeAttributes(methboss, 0, 0)
-  SetPedDiesWhenInjured(methboss, false)
-  TaskStartScenarioInPlace(methboss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
-  SetPedKeepTask(methboss, true)
-  SetBlockingOfNonTemporaryEvents(methboss, true)
-  SetEntityInvincible(methboss, true)
-  FreezeEntityPosition(methboss, true)
-end
+    methboss = CreatePed(2, `g_m_m_mexboss_01`, 481.18, -591.21, 23.75, 299.77, false, false) -- change here the cords for the ped 
+    SetPedFleeAttributes(methboss, 0, 0)
+    SetPedDiesWhenInjured(methboss, false)
+    TaskStartScenarioInPlace(methboss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
+    SetPedKeepTask(methboss, true)
+    SetBlockingOfNonTemporaryEvents(methboss, true)
+    SetEntityInvincible(methboss, true)
+    FreezeEntityPosition(methboss, true)
+end)
 
 --- Target Stuff
 CreateThread(function()
@@ -79,11 +75,9 @@ function RunStart()
 	Citizen.Wait(3000)
 end
 
-RegisterCommand('bliptest',function ()
-    Itemtimemsg()
-end)
 
-function Itemtimemsg()
+
+RegisterCommand('bliptest',function (Itemtimemsg)
     Citizen.Wait(2000)
 
 	TriggerServerEvent('qb-phone:server:sendNewMail', {
@@ -97,8 +91,7 @@ function Itemtimemsg()
     TriggerServerEvent('QBCore:Server:AddItem', "meth_cured", 20)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["meth_cured"], "add")
     QBCore.Functions.Notify("Security case has been unlocked.", "success")
-
-end
+end)
 ---
 RegisterNetEvent('ps-methrun:client:start', function ()
     if CurrentCops >= Config.MinimumMethJobPolice then
@@ -131,8 +124,7 @@ RegisterNetEvent('ps-methrun:client:start', function ()
     end
 end)
 
-RegisterNetEvent('ps-methrun:server:runactivate')
-AddEventHandler('ps-methrun:server:runactivate', function()
+RegisterNetEvent('ps-methrun:server:runactivate', function()
 RunStart()
 local DrawCoord = 1
 if DrawCoord == 1 then
@@ -216,8 +208,7 @@ function SpawnGuards()
     SetRelationshipBetweenGroups(5, `PLAYER`, `npcguards`)
 end
 
-RegisterNetEvent("ps-methrun:client:items")
-AddEventHandler('ps-methrun:client:items', function()
+RegisterNetEvent('ps-methrun:client:items', function()
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
         if result then
             TriggerEvent("qb-dispatch:methjob")
@@ -261,8 +252,7 @@ AddEventHandler('ps-methrun:client:items', function()
     end, "casekey")
 end)
 
-RegisterNetEvent("ps-methrun:client:reward")
-AddEventHandler('ps-methrun:client:reward', function()
+RegisterNetEvent('ps-methrun:client:reward', function()
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
         if result then
             TriggerEvent('animations:client:EmoteCommandStart', {"suitcase2"})

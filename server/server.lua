@@ -2,8 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local Cooldown = false
 
-RegisterServerEvent('ps-methrun:server:startr')
-AddEventHandler('ps-methrun:server:startr', function()
+RegisterServerEvent('ps-methrun:server:startr', function()
     local player = QBCore.Functions.GetPlayer(source)
 
 	if player.PlayerData.money['cash'] >= Config.RunCost then
@@ -15,8 +14,7 @@ AddEventHandler('ps-methrun:server:startr', function()
 end)
 
 -- cool down for job
-RegisterServerEvent('ps-methrun:server:coolout')
-AddEventHandler('ps-methrun:server:coolout', function()
+RegisterServerEvent('ps-methrun:server:coolout', function()
     Cooldown = true
     local timer = Config.Cooldown * 60000
     while timer > 0 do
@@ -36,23 +34,20 @@ QBCore.Functions.CreateCallback("ps-methrun:server:coolc",function(source, cb)
     end
 end)
 
-RegisterServerEvent('ps-meth:server:giveitemreward')
-AddEventHandler('ps-meth:server:giveitemreward', function()
+RegisterServerEvent('ps-meth:server:giveitemreward', function()
 	local player = QBCore.Functions.GetPlayer(source)
 	player.PlayerData.AddItem(Config.SpecialItem, 1)
 	TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.SpecialItem], "add")
 end)
 
-RegisterServerEvent('ps-methrun:server:givemeth')
-AddEventHandler('ps-methrun:server:givemeth', function()
+RegisterServerEvent('ps-methrun:server:givemeth', function()
 	local player = QBCore.Functions.GetPlayer(source)
 	player.Functions.AddMoney('cash', Config.Payout)
 	player.Functions.AddItem(Config.Item, Config.MethAmount)
 	TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.Item], "add")
 end)
 
-RegisterServerEvent('ps-methrun:server:givemoney')
-AddEventHandler('ps-methrun:server:givemoney', function()
+RegisterServerEvent('ps-methrun:server:givemoney', function()
 	local player = QBCore.Functions.GetPlayer(source)
 	player.Functions.AddMoney('cash', Config.Payout)
 end)
