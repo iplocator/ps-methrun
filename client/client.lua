@@ -273,10 +273,3 @@ RegisterNetEvent('ps-methrun:client:reward', function()
         end
     end, "meth_cured",20)
 end)
-
-
-RegisterCommand('teste', function()
-
-TriggerEvent('ps-methrun:client:reward')
-
-end)
