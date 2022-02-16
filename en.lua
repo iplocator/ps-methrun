@@ -11,6 +11,7 @@ local Translations = {
         ["case_has_been_unlocked"]              = "Security case has been unlocked",
         ["you_removed_first_security_case"]     = "You removed the the first layer of security on the case",
         ["you_got_paid"]                        = "You got paid",
+        ["send_email_right_now"]                 = "I will send you an e-mail right now!",
     },
     info = {
         ["talking_to_boss"]             = "Talking to boss..",
