@@ -11,9 +11,9 @@ RegisterServerEvent('ps-methrun:server:startr', function()
         Player.Functions.AddItem("casekey", 1)
         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["casekey"], "add")
 		TriggerClientEvent("ps-methrun:server:runactivate", src)
-        TriggerClientEvent('QBCore:Notify', src, 'I will send you an e-mail right now!', 'success')
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("success.send_email_right_now"), 'success')
 	else
-		TriggerClientEvent('QBCore:Notify', src, 'You Dont Have Enough Money', 'error')
+		TriggerClientEvent('QBCore:Notify', source, Lang:t("error.you_dont_have_enough_money"), 'error')
 	end
 end)
 
