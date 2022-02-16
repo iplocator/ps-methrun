@@ -57,6 +57,8 @@ RegisterServerEvent('ps-methrun:server:rewardpayout', function ()
 
     Player.Functions.AddMoney('cash', Config.Payout)
 
+    local chance = math.random(1, 100)
+
     if chance >= 85 then
         Player.Functions.AddItem(Config.Item, Config.MethAmount)
         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.Item], "add")
