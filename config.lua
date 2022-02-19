@@ -6,7 +6,7 @@ Config.Cooldown = 360 --- Cooldown until next allowed meth run
 Config.RunCost = 1500 --- Self explanatory 
 
 Config.Payout = math.random(150000, 220000) -- How much you get paid
-Config.Item = "puremeth" -- The item you receive from the job
+Config.Item = "meth" -- The item you receive from the job
 Config.MethChance = 350 -- Percentage chance to get meth
 Config.MethAmount = math.random(20, 30) -- Amount of meth you recieve
 
